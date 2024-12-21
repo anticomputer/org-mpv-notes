@@ -42,6 +42,13 @@ auto-magically insert the OCR-ed text to the org buffer.
 
   The hook on org-mode makes sure that mpv: links work in org-mode.
 
+Also you need to make sure =mpv= is installed in your system.
+#+begin_src shell
+  # For linux
+  sudo apt install mpv
+  # For MacOS
+  sudo brew install mpv
+#+end_src
 *** Use
 
 While taking notes in an org buffer you can open a media (video/audio)
