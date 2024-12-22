@@ -37,6 +37,7 @@ auto-magically insert the OCR-ed text to the org buffer.
     :hook (org-mode . org-mpv-notes-setup-link))
 
   (use-package mpv
+    :pin melpa
     :ensure t)
 #+end_src
 
