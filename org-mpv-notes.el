@@ -5,7 +5,7 @@
 ;; Author: Bibek Panthi <bpanthi977@gmail.com>
 ;; Maintainer: Bibek Panthi <bpanthi977@gmail.com>
 ;; URL: https://github.com/bpanthi977/org-mpv-notes
-;; Version: 0.1.7
+;; Version: 0.1.8
 ;; Package-Requires: ((emacs "28.1"))
 ;; Kewords: mpv, org
 
@@ -202,7 +202,7 @@ Returns path (string)
     ;; Enable Minor mode
     (org-mpv-notes-mode t)
     (let ((backend (org-mpv-notes--backend))
-          (mpv-default-option (format " %s" org-mpv-notes-mpv-args))
+          (mpv-default-options org-mpv-notes-mpv-args)
           (empv-mpv-args (when (boundp 'empv-mpv-args)
                            (append empv-mpv-args org-mpv-notes-mpv-args))))
       (cl-flet ((start (path)
