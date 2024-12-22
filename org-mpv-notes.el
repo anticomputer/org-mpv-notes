@@ -201,22 +201,21 @@ Returns path (string)
   (cl-multiple-value-bind (path secs) (org-mpv-notes--parse-link path)
     ;; Enable Minor mode
     (org-mpv-notes-mode t)
-    (let ((backend (org-mpv-notes--backend))
-          (mpv-default-options org-mpv-notes-mpv-args)
-          (empv-mpv-args (when (boundp 'empv-mpv-args)
-                           (append empv-mpv-args org-mpv-notes-mpv-args))))
+    (let* ((org-mpv-notes-mpv-args (if secs
+                                       (cons (format "--start=%d" secs)
+                                             org-mpv-notes-mpv-args)
+                                     org-mpv-notes-mpv-args))
+           (mpv-default-options org-mpv-notes-mpv-args)
+           (empv-mpv-args (when (boundp 'empv-mpv-args)
+                            (append empv-mpv-args org-mpv-notes-mpv-args))))
       (cl-flet ((start (path)
                   (let ((path (if (string-prefix-p "http" path)
                                   path
                                 (file-truename path))))
                     (message "org-mpv-notes: Opening %s" path)
-                    (if (eql backend 'mpv)
+                    (if (eql (org-mpv-notes--backend) 'mpv)
                         (mpv-start path)
-                      (empv-start path))))
-                (seek (secs)
-                  (if (eql backend 'mpv)
-                      (mpv-seek secs)
-                    (empv-seek secs '("absolute")))))
+                      (empv-start path)))))
 
         ;; Open mpv player
         (cond ((not (org-mpv-notes--active-backend t))
@@ -224,11 +223,11 @@ Returns path (string)
               ((not (string-equal (org-mpv-notes--get-property "path") path))
                (org-mpv-notes-kill)
                (sleep-for org-mpv-notes-empv-wait-interval)
-               (start path)))
-        ;; Jump to link
-        (sleep-for org-mpv-notes-empv-wait-interval)
-        (when secs
-          (seek secs))))))
+               (start path))
+              (t
+               (when secs
+                 (sleep-for org-mpv-notes-empv-wait-interval)
+                 (org-mpv-notes--seek secs))))))))
 
 ;;;###autoload
 (defun org-mpv-notes-open (&optional path)

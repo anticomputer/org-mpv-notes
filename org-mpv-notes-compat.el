@@ -109,6 +109,11 @@ For a list of mpv commands see:
          (s (floor (mod time 60))))
     (format "%02d:%02d:%02d" h m s)))
 
+(defun org-mpv-notes--seek (secs)
+  (if (org-mpv-notes--active-backend)
+      (mpv-seek secs)
+    (empv-seek secs '("absolute"))))
+
 (defun org-mpv-notes-seek-forward ()
   "Seek (i.e. skip) forward in the video/audio."
   (org-mpv-notes--cmd-async "seek" org-mpv-notes-seek-step "relative")
