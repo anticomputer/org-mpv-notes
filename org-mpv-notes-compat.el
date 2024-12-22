@@ -116,26 +116,31 @@ For a list of mpv commands see:
 
 (defun org-mpv-notes-seek-forward ()
   "Seek (i.e. skip) forward in the video/audio."
+  (interactive)
   (org-mpv-notes--cmd-async "seek" org-mpv-notes-seek-step "relative")
   (message "org-mpv-notes: Playback is now at %s" (org-mpv-notes--playback-timestamp)))
 
 (defun org-mpv-notes-seek-backward ()
   "Seek (i.e. skip) backwards in video/audio."
+  (interactive)
   (org-mpv-notes--cmd-async "seek" (- org-mpv-notes-seek-step) "relative")
   (message "org-mpv-notes: Playback is now at %s" (org-mpv-notes--playback-timestamp)))
 
 (defun org-mpv-notes-halve-seek-step ()
   "Decrease seek step size by a factor of 2."
+  (interactive)
   (setf org-mpv-notes-seek-step (* 0.5 org-mpv-notes-seek-step))
   (message "org-mpv-notes: Seek step size is %d secs" org-mpv-notes-seek-step))
 
 (defun org-mpv-notes-double-seek-step ()
   "Increase seek step size by a factor of 2."
+  (interactive)
   (setf org-mpv-notes-seek-step (* 2 org-mpv-notes-seek-step))
   (message "org-mpv-notes: Seek step size is %d secs" org-mpv-notes-seek-step))
 
 (defun org-mpv-notes-toggle-fullscreen ()
   "Toggle fullscreen in mpv."
+  (interactive)
   (org-mpv-notes--cmd-async "cycle" "fullscreen"))
 
 (defun org-mpv-notes-speed-up ()
